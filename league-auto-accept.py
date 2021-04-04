@@ -5,7 +5,13 @@ from threading import Thread
 from queue import Queue
 import asyncio
 import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 import DiscordBot
+
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 
 class Accept(Thread):
@@ -48,7 +54,7 @@ if __name__ == '__main__':
 
     asyncio.get_child_watcher()
     loop = asyncio.get_event_loop()
-    loop.create_task(DiscordBot.start(queue, os.getenv('TOKEN'), 365243942771490829))
+    loop.create_task(DiscordBot.start(queue, os.getenv('TOKEN'), os.getenv('CHANNEL_ID')))
     bot = Thread(target=DiscordBot.run_it_forever, args=(loop,))
 
     bot.start()

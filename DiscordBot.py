@@ -6,7 +6,7 @@ class DiscordBot(Client):
     def __init__(self, queue, channel_id):
         super(DiscordBot, self).__init__()
         self.queue = queue
-        self.channel_id = channel_id
+        self.channel_id = int(channel_id)
 
     async def on_ready(self):
         print(f'{self.user} is ready, waiting...')
