@@ -17,19 +17,26 @@ class Accept(Thread):
     def run(self):
         while True:
 
-            accept = pyautogui.locateCenterOnScreen('accept.png', confidence=0.7)
-            # decline = pyautogui.locateCenterOnScreen('decline.png', confidence=0.7)
+            accept = pyautogui.locateCenterOnScreen('accept.png', confidence=0.4)
 
             if accept:
                 pyautogui.moveTo(accept)
                 # click multiple times just to make sure accept button gets clicked
-                pyautogui.click(accept)
 
-                print(f'Game Accepted. {datetime.now()}')
+                print(f'Match found. {datetime.now()}')
 
                 self.queue.put("MATCH")
+                time.sleep(1)
+                action = self.queue.get()
 
-                time.sleep(5)
+                if action == "ACCEPT":
+                    pyautogui.click(accept)
+                elif action == "DECLINE":
+                    decline = pyautogui.locateCenterOnScreen('decline.png', confidence=0.4)
+                    pyautogui.moveTo(decline)
+                    pyautogui.click(decline)
+
+                time.sleep(10)
             else:
                 print(datetime.now())
                 time.sleep(1)

@@ -17,8 +17,10 @@ class DiscordBot(Client):
         if message.author == self.user:
             return
 
-        if message.content.startswith('$hello'):
-            await message.channel.send('Hello!')
+        if message.content == 'A':
+            self.queue.put("ACCEPT")
+        else:
+            self.queue.put("DECLINE")
 
 
 async def start(queue, token, channel_id):
