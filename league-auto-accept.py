@@ -31,31 +31,27 @@ class Accept(Thread):
 
                 print(f'Match found. {datetime.now()}')
 
-                self.queue.put("MATCH")
-                time.sleep(1)
+                self.queue.put("Match found!")
+                time.sleep(0.5)
                 action = self.queue.get()
 
                 if action == "ACCEPT":
                     pyautogui.click(accept)
+                    print(f'Match accepted. {datetime.now()}')
                 elif action == "DECLINE":
-                    decline = pyautogui.locateCenterOnScreen('decline.png', confidence=0.4)
+                    decline = pyautogui.locateCenterOnScreen('decline.png', confidence=0.7)
                     pyautogui.moveTo(decline)
                     pyautogui.click(decline)
+                    print(f'Match declined. {datetime.now()}')
 
                 time.sleep(10)
             else:
-                print(datetime.now())
-                time.sleep(1)
+                print(f'Scanning. {datetime.now()}')
+                time.sleep(0.5)
 
 
 if __name__ == '__main__':
 
     queue = Queue()
-
-    asyncio.get_child_watcher()
-    loop = asyncio.get_event_loop()
-    loop.create_task(DiscordBot.start(queue, os.getenv('TOKEN'), os.getenv('CHANNEL_ID')))
-    bot = Thread(target=DiscordBot.run_it_forever, args=(loop,))
-
-    bot.start()
-    auto_accept = Accept(queue).start()
+    Accept(queue).start()
+    asyncio.run(DiscordBot.start(queue, os.getenv('TOKEN'), os.getenv('CHANNEL_ID')))
