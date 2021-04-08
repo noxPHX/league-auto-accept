@@ -23,7 +23,7 @@ class Accept(Thread):
     def run(self):
         while True:
 
-            accept = pyautogui.locateCenterOnScreen('accept.png', confidence=0.4)
+            accept = pyautogui.locateCenterOnScreen('accept.png', confidence=os.getenv('ACCEPT_CONFIDENCE'))
 
             if accept:
                 pyautogui.moveTo(accept)
@@ -39,7 +39,7 @@ class Accept(Thread):
                     pyautogui.click(accept)
                     print(f'Match accepted. {datetime.now()}')
                 elif action == "DECLINE":
-                    decline = pyautogui.locateCenterOnScreen('decline.png', confidence=0.7)
+                    decline = pyautogui.locateCenterOnScreen('decline.png', confidence=os.getenv('DECLINE_CONFIDENCE'))
                     pyautogui.moveTo(decline)
                     pyautogui.click(decline)
                     print(f'Match declined. {datetime.now()}')
